@@ -30,6 +30,8 @@ vault secrets enable -path=internal kv-v2
 ##### Set key value configuration
 ```bash
 vault kv put internal/database/config username="db-readonly-username" password="db-secret-password"
+echo "abc" > tmp/a1.pem
+vault kv put internal/certificates/config cnpj1=@tmp/a1.pem
 ```
 
 ### Config Kubernetes Authentication
@@ -53,6 +55,9 @@ vault write auth/kubernetes/config \
 ```bash
 vault policy write internal-app - <<EOF
 path "internal/data/database/config" {
+  capabilities = ["read"]
+}
+path "internal/data/certificates/config" {
   capabilities = ["read"]
 }
 EOF
