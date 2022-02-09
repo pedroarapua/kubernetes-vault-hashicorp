@@ -87,6 +87,11 @@ kubectl apply --filename deployment.yaml
 kubectl patch deployment orgchart --patch "$(cat patch.yaml)"
 ```
 
+##### Check secrets inside Pod
+```bash
+kubectl exec     $(kubectl get pod -l app=orgchart -o jsonpath="{.items[0].metadata.name}")     --container orgchart -- cat /vault/secrets/database-config.txt
+```
+
 ### Optional Commands
 
 ##### PortForward Pod Vault
